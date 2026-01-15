@@ -5,3 +5,52 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  DELIVERED
+  CANCELLED
+}
+
+model InventoryItem {
+  id   Int     @id @default(autoincrement())
+  name String?
+  sku  String? @unique
+  type String?
+  unit String?
+  stocks InventoryStock[]
+  orderItems OrderItem[]
+
+  @@map("inventory_items")
+}
+
+model InventoryStock {
+  id              Int     @id @default(autoincrement())
+  inventoryItemId Int     @map("item_id")
+  location        String?
+  quantity        Int
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+
+  @@map("inventory_stocks")
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  orderNumber Int         @unique @map("order_number")
+  status      OrderStatus @default(PENDING)
+  orderItems  OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  orderId  String @map("order_id")
+  itemId   Int    @map("item_id")
+  quantity Int
+  order    Order  @relation(fields: [orderId], references: [id])
+  inventoryItem InventoryItem @relation(fields: [itemId], references: [id])
+
+  @@id([orderId, itemId])
+  @@map("order_items")
+}
