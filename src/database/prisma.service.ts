@@ -7,7 +7,8 @@ import { Pool } from 'pg';
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
     const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    super({ adapter: new PrismaPg(pool) });
+    const adapter = new PrismaPg(pool, { schema: process.env.DATABASE_SCHEMA });
+    super({ adapter });
   }
 
   async onModuleInit() {

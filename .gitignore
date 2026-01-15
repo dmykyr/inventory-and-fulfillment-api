@@ -4,3 +4,5 @@
 .env
 /generated/prisma
 /dist
+/.idea
+/.vscode
