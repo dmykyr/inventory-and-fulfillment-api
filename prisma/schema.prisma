@@ -32,6 +32,7 @@ model InventoryStock {
   quantity        Int
   inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
 
+  @@unique([inventoryItemId, location])
   @@map("inventory_stocks")
 }
 
