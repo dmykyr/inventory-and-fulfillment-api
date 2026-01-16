@@ -3,22 +3,22 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateInventoryItemDto {
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'name must be a string' })
+  @IsNotEmpty({ message: 'name is required' })
   name: string;
 
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'sku must be a string' })
+  @IsNotEmpty({ message: 'sku is required' })
   sku: string;
 
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'type must be a string' })
+  @IsNotEmpty({ message: 'type is required' })
   type: string;
 
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'unit must be a string' })
+  @IsNotEmpty({ message: 'unit is required' })
   unit: string;
 }
