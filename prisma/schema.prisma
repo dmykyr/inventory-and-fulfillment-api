@@ -8,9 +8,7 @@ datasource db {
 
 enum OrderStatus {
   PENDING
-  PROCESSING
-  DELIVERED
-  CANCELLED
+  FULFILLED
 }
 
 model InventoryItem {
