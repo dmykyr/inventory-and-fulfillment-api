@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsInt, IsPositive, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsPositive, IsString, ValidateNested } from "class-validator";
 
 export class CreateOrderItemDto {
     @ApiProperty()
@@ -24,4 +24,9 @@ export class CreateOrderDto {
     @ValidateNested({ each: true })
     @Type(() => CreateOrderItemDto)
     orderItems: CreateOrderItemDto[];
+
+    @ApiProperty()
+    @IsString({ message: 'stockLocation must be a string' })
+    @IsNotEmpty({ message: 'stockLocation is required' })
+    stockLocation: string;
 }
