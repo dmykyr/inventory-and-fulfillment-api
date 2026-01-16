@@ -4,6 +4,7 @@ import { CreateOrderDto } from "src/dtos/createOrder.dto";
 import { OrderMapper } from "./order.mapper";
 import { AppLoggerService } from "src/common/services/app-logger.service";
 import { InventoryItem, InventoryStock, Order, OrderItem, OrderStatus } from "@prisma/client";
+import { log } from "console";
 
 @Injectable()
 export class OrderService {
@@ -55,11 +56,11 @@ export class OrderService {
   private async validateItemsStockExistance(itemIds: number[], stockLocation: string) {
     const items = await this.prisma.inventoryStock.findMany({
       where: {
-        id: { in: itemIds },
+        inventoryItemId: { in: itemIds },
         location: stockLocation,
       },
     });
-
+    
     if (items.length !== itemIds.length) {
       throw new BadRequestException("Some order items do not exist in the specified stock location");
     }
