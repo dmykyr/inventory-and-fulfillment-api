@@ -27,7 +27,6 @@ export class OrderService {
         const order = await prisma.order.create({
             data: {
               orderNumber: dto.orderNumber,
-              stockLocation: dto.stockLocation,
             },
         });
 
@@ -91,13 +90,18 @@ export class OrderService {
 
     const stockAlerts: Array<StockQuantityAlertDto> = [];
 
+    const inventoryStock = await this.prisma.inventoryStock.findFirst({
+      where: { inventoryItemId: orderItems[0].itemId },
+    });
+    const orderLocation = inventoryStock.location;
+
     await this.prisma.$transaction(async (prisma) => {
       for (const orderItem of orderItems) {
         const itemStock = await prisma.inventoryStock.findUnique({
           where: {
             inventoryItemId_location: {
               inventoryItemId: orderItem.itemId,
-              location: order.stockLocation,
+              location: orderLocation
             },
           },
         });
