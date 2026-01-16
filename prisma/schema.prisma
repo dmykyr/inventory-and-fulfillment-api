@@ -8,17 +8,15 @@ datasource db {
 
 enum OrderStatus {
   PENDING
-  PROCESSING
-  DELIVERED
-  CANCELLED
+  FULFILLED
 }
 
 model InventoryItem {
   id   Int     @id @default(autoincrement())
-  name String?
-  sku  String? @unique
-  type String?
-  unit String?
+  name String
+  sku  String @unique
+  type String
+  unit String
   stocks InventoryStock[]
   orderItems OrderItem[]
 
@@ -28,10 +26,11 @@ model InventoryItem {
 model InventoryStock {
   id              Int     @id @default(autoincrement())
   inventoryItemId Int     @map("item_id")
-  location        String?
+  location        String
   quantity        Int
   inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
 
+  @@unique([inventoryItemId, location])
   @@map("inventory_stocks")
 }
 
