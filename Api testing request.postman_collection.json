@@ -1,0 +1,147 @@
+{
+  "info": {
+    "_postman_id": "f2fd0400-018c-49a8-876d-29b2236482af",
+    "name": "Api testing request",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25451111",
+    "_collection_link": "https://go.postman.co/collection/25451111-f2fd0400-018c-49a8-876d-29b2236482af?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false,
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"orderNumber\": {{orderNumber}},\r\n    \"items\": [\r\n        {\r\n            \"inventoryItemId\": {{orderInvenotryItemId}},\r\n            \"quantity\": {{orderInventoryItemQuantity}}\r\n        }\r\n    ],\r\n    \"location\": \"{{stockLocation}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/orders",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fulfill Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false,
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/orders/{{orderId}}/fulfill",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "orders",
+            "{{orderId}}",
+            "fulfill"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create inventory item",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false,
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"{{inventoryItemName}}\", \"sku\": \"{{inventoryItemSku}}\", \"type\": \"{{inventoryItemType}}\", \"unit\": \"{{InventoryItemUnit}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/inventory-items",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "inventory-items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Item stocks",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false,
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"location\": \"{{stockLocation}}\", \"quantity\": {{stockQuantity}}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/inventory-items/{{inventoryItemId}}/stocks",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "inventory-items",
+            "{{inventoryItemId}}",
+            "stocks"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

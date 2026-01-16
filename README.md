@@ -68,6 +68,8 @@ A RESTful API for managing inventory stock and order fulfillment. Built with Nes
 
 Swagger documentation is available at `http://localhost:3000/api` when the server is running.
 
+A Postman collection is also available for testing: [Api testing request.postman_collection.json](Api%20testing%20request.postman_collection.json)
+
 ## Scripts
 
 | Command | Description |
