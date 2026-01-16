@@ -1,9 +1,11 @@
-import { Body, Controller, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { InventoryItemService } from './inventory-item.service';
 import { CreateInventoryItemDto } from '../../dtos/createInventoryItem.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { InventoryItemResponse } from 'src/responses/inventoryItem.response';
 import { AddInventoryItemStockDto } from 'src/dtos/addInventoryItemStock.dto';
+import { InventoryItemByIdPipe } from 'src/common/pipes/inventory-item-by-id.pipe';
+import { InventoryItem } from '@prisma/client';
 
 @Controller('/inventory-items')
 export class InventoryItemController {
@@ -18,9 +20,9 @@ export class InventoryItemController {
   @Patch(':itemId/stocks')
   @ApiOkResponse({type: InventoryItemResponse})
   public async upsertInventoryItemStock(
-    @Body() dto: AddInventoryItemStockDto, 
-    @Param('itemId', new ParseIntPipe())  itemId: number
+    @Body() dto: AddInventoryItemStockDto,
+    @Param('itemId', InventoryItemByIdPipe) inventoryItem: InventoryItem
   ) {
-    return this.inventoryItemService.upsertInventoryItemStock(dto, itemId);
+    return this.inventoryItemService.upsertInventoryItemStock(dto, inventoryItem);
   } 
 }

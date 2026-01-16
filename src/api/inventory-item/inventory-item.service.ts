@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { CreateInventoryItemDto } from '../../dtos/createInventoryItem.dto';
 import { AddInventoryItemStockDto } from 'src/dtos/addInventoryItemStock.dto';
+import { InventoryItem } from '@prisma/client';
 
 @Injectable()
 export class InventoryItemService {
@@ -13,27 +14,17 @@ export class InventoryItemService {
     });
   }
 
-  public async upsertInventoryItemStock(dto: AddInventoryItemStockDto, itemId: number) {
-    const itemToStock = await this.prisma.inventoryItem.findFirst({
-      where: {
-        id: itemId,
-      },
-    });
-
-    if (!itemToStock) {
-      throw new BadRequestException('Item with such id does not exist');
-    }
-
+  public async upsertInventoryItemStock(dto: AddInventoryItemStockDto, inventoryItem: InventoryItem) {
     return this.prisma.inventoryStock.upsert({
       where: {
         inventoryItemId_location: {
-          inventoryItemId: itemId,
+          inventoryItemId: inventoryItem.id,
           location: dto.location,
         },
       },
       update: { quantity: dto.quantity },
       create: {
-        inventoryItemId: itemId,
+        inventoryItemId: inventoryItem.id,
         location: dto.location,
         quantity: dto.quantity,
       },
