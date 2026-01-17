@@ -77,3 +77,4 @@ A Postman collection is also available for testing: [Api testing request.postman
 | `npm run start:dev` | Start development server with hot reload |
 | `npm run start:prod` | Start production server |
 | `npm run build` | Build the application |
+| `npm run test` | Run Jest tests |
